@@ -1,11 +1,12 @@
 package eu.citycollege.york.asdt.post;
 
 public class App {
-    private Sale currentSale;
     private ProductCatalog productCatalog;
+    private Register register;
 
     public App() {
         productCatalog = new ProductCatalog();
+        register = new Register(productCatalog);
     }
 
     public String getGreeting() {
@@ -19,19 +20,8 @@ public class App {
         productCatalog.addProductSpecification(string, price);
     }
 
-    public void makeNewSale() {
-        currentSale = new Sale();
+    public Register getRegister() {
+        return register;
     }
 
-    public void enterItem(String id, int quantity) {
-        ProductSpecification spec = productCatalog.getSpecification(id);
-
-        if (spec != null) {
-            currentSale.makeSaleLineItem(spec, quantity);
-        }
-    }
-
-    public int getSaleTotal() {
-        return currentSale.getTotal();
-    }
 }

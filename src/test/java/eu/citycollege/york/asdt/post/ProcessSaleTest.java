@@ -7,10 +7,12 @@ import org.junit.Test;
 
 public class ProcessSaleTest {
     private App sut;
+    private Register register;
 
     @Before
-    public void createApp() {
+    public void setUpProcessSale() {
         sut = new App();
+        register = sut.getRegister();
     }
 
     /**
@@ -57,15 +59,15 @@ public class ProcessSaleTest {
     // Helper methods for BDD style
 
     private void thenTotalIs(int expected) {
-        assertEquals(expected, sut.getSaleTotal());
+        assertEquals(expected, register.getSaleTotal());
     }
 
     private void whenItemEnteredWithCodeAndQuantity(String code, int qty) {
-        sut.enterItem(code, qty);
+        register.enterItem(code, qty);
     }
 
     private void whenNewSale() {
-        sut.makeNewSale();
+        register.makeNewSale();
     }
 
     private void givenProductWithCodeAndPrice(String code, int price) {
