@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
-public class EnterItemTest {
+public class ProcessSaleTest {
     private App sut;
 
     @Before
@@ -23,7 +23,7 @@ public class EnterItemTest {
      * Then the total of the sale is 20
      */
     @Test
-    public void enterItemWithOneItem() {
+    public void processSaleWithOneItem() {
 
         givenProductWithCodeAndPrice("999", 10);
 
@@ -32,6 +32,29 @@ public class EnterItemTest {
 
         thenTotalIs(20);
     }
+
+    @Test
+    public void processSaleWithTwoItems() {
+
+        givenProductWithCodeAndPrice("999", 10);
+        givenProductWithCodeAndPrice("888", 20);
+
+        whenNewSale();
+        whenItemEnteredWithCodeAndQuantity("999", 1);
+        whenItemEnteredWithCodeAndQuantity("888", 1);
+
+        thenTotalIs(30);
+    }
+
+    @Test
+    public void processSaleWithNoItems() {
+
+        whenNewSale();
+
+        thenTotalIs(0);
+    }
+
+    // Helper methods for BDD style
 
     private void thenTotalIs(int expected) {
         assertEquals(expected, sut.getSaleTotal());
