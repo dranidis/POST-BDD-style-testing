@@ -5,18 +5,22 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * A test class for the Process Sale use case.
+ */
 public class ProcessSaleTest {
-    private App sut;
+    private PointOfSaleTerminal sut;
     private Register register;
+    private Exception caughtException;
 
     @Before
     public void setUpProcessSale() {
-        sut = new App();
+        sut = new PointOfSaleTerminal();
         register = sut.getRegister();
     }
 
     /**
-     * Scenario: Calculate total for a sale with multiple items
+     * Scenario: Calculate total for a sale with one items
      * <p>
      * Given there is a product with the code 999 and a price of 10
      * <p>
@@ -56,22 +60,40 @@ public class ProcessSaleTest {
         thenTotalIs(0);
     }
 
+    @Test
+    public void processSaleWithNotFoundItem() {
+
+        whenNewSale();
+        whenItemEnteredWithCodeAndQuantity("111", 1);
+
+        thenExceptionIsThrownForNotFoundProduct("111");
+    }
+
     // Helper methods for BDD style
+
+    private void thenExceptionIsThrownForNotFoundProduct(String productId) {
+        assertEquals(ProductSpecificationNotFound.class, caughtException.getClass());
+        assertEquals(productId, ((ProductSpecificationNotFound) caughtException).getProductId());
+    }
 
     private void thenTotalIs(int expected) {
         assertEquals(expected, register.getSaleTotal());
     }
 
-    private void whenItemEnteredWithCodeAndQuantity(String code, int qty) {
-        register.enterItem(code, qty);
+    private void whenItemEnteredWithCodeAndQuantity(String productId, int qty) {
+        try {
+            register.enterItem(productId, qty);
+        } catch (Exception e) {
+            caughtException = e;
+        }
     }
 
     private void whenNewSale() {
         register.makeNewSale();
     }
 
-    private void givenProductWithCodeAndPrice(String code, int price) {
-        sut.addProduct(code, price);
+    private void givenProductWithCodeAndPrice(String productId, int price) {
+        sut.addProduct(productId, price);
     }
 
 }

@@ -10,6 +10,10 @@ public class ProductSpecification {
         this.price = price;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public int getPrice() {
         return price;
     }

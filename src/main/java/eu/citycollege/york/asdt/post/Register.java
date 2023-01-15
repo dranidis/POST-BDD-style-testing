@@ -8,16 +8,18 @@ public class Register {
     public Register(ProductCatalog productCatalog) {
         this.productCatalog = productCatalog;
     }
-    
+
     public void makeNewSale() {
         currentSale = new Sale();
     }
 
-    public void enterItem(String id, int quantity) {
-        ProductSpecification spec = productCatalog.getSpecification(id);
+    public void enterItem(String productId, int quantity) throws ProductSpecificationNotFound {
+        ProductSpecification productSpecification = productCatalog.getProductSpecification(productId);
 
-        if (spec != null) {
-            currentSale.makeSaleLineItem(spec, quantity);
+        if (productSpecification != null) {
+            currentSale.makeSaleLineItem(productSpecification, quantity);
+        } else {
+            throw new ProductSpecificationNotFound(productId);
         }
     }
 

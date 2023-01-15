@@ -11,12 +11,12 @@ public class ProductCatalog {
         productSpecifications = new HashMap<>();
     }
 
-    public ProductSpecification getSpecification(String id) {
-        return productSpecifications.get(id);
+    public ProductSpecification getProductSpecification(String productId) {
+        return productSpecifications.get(productId);
     }
 
-    public void addProductSpecification(String string, int price) {
-        productSpecifications.put(string, new ProductSpecification(string, price));
+    public void addProductSpecification(String productId, int price) {
+        productSpecifications.put(productId, new ProductSpecification(productId, price));
     }
 
 }
