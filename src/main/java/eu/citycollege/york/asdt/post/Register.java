@@ -1,12 +1,16 @@
 package eu.citycollege.york.asdt.post;
 
+import java.util.List;
+
 public class Register {
 
     private ProductCatalog productCatalog;
     private Sale currentSale;
+    private List<Sale> completedSales;
 
-    public Register(ProductCatalog productCatalog) {
+    public Register(ProductCatalog productCatalog, List<Sale> completedSales) {
         this.productCatalog = productCatalog;
+        this.completedSales = completedSales;
     }
 
     public void makeNewSale() {
@@ -25,5 +29,9 @@ public class Register {
 
     public int getSaleTotal() {
         return currentSale.getTotal();
+    }
+
+    public void endSale() {
+        completedSales.add(currentSale);
     }
 }

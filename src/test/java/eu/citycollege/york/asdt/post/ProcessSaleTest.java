@@ -35,8 +35,10 @@ public class ProcessSaleTest {
 
         whenNewSale();
         whenItemEnteredWithCodeAndQuantity("999", 2);
+        whenEndSale();
 
         thenTotalIs(20);
+        thenNumberOfCompletedSalesIs(1);
     }
 
     @Test
@@ -80,6 +82,10 @@ public class ProcessSaleTest {
         assertEquals(expected, register.getSaleTotal());
     }
 
+    private void thenNumberOfCompletedSalesIs(int expected) {
+        assertEquals(expected, sut.getNumberOfCompletedSales());
+    }
+
     private void whenItemEnteredWithCodeAndQuantity(String productId, int qty) {
         try {
             register.enterItem(productId, qty);
@@ -90,6 +96,10 @@ public class ProcessSaleTest {
 
     private void whenNewSale() {
         register.makeNewSale();
+    }
+
+    private void whenEndSale() {
+        register.endSale();
     }
 
     private void givenProductWithCodeAndPrice(String productId, int price) {
